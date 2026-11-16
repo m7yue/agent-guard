@@ -1,0 +1,30 @@
+# CI：类型检查、测试、构建与评测。
+# 不打包、不发布、不上传产物；打包只作为本地验证。
+#
+# better-sqlite3 是原生模块：CI 使用 Node ABI 跑测试与构建，
+# 不在这里切换到 Electron ABI，也不生成 dmg。
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      # 类型检查 + 测试 + 构建 + out/ 大小门槛（与本地同一条命令）
+      - name: 检查与构建
+        run: npm run ci
+

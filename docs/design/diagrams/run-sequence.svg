@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="760" viewBox="0 0 1160 760" role="img" aria-labelledby="title desc">
+  <title id="title">AgentGuard 一次运行的时序</title>
+  <desc id="desc">用户输入任务，渲染层经主进程调用执行器；执行器调用模型和工具，需要审批时跨进程等待，结果写入 SQLite。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker>
+    <marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#c2410c"/></marker>
+    <style>
+      .bg{fill:#ffffff}
+      .head{fill:#0f1720}
+      .head-text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;font-weight:600;fill:#ffffff;text-anchor:middle}
+      .life{stroke:#94a3b8;stroke-width:1;stroke-dasharray:4 5}
+      .msg{stroke:#475569;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+      .msg-event{stroke:#c2410c;stroke-width:1.5;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow-orange)}
+      .label{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;fill:#334155}
+      .label-orange{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;fill:#9a3412}
+      .frame{fill:none;stroke:#c2410c;stroke-width:1.2;stroke-dasharray:5 5}
+      .note{fill:#fff7ed;stroke:#c2410c;stroke-width:1}
+      .note-text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;fill:#7c2d12}
+      .title{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;font-weight:600;fill:#c2410c}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1160" height="760"/>
+
+  <g>
+    <rect class="head" x="25" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="80" y="50">用户</text>
+    <rect class="head" x="195" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="250" y="50">Renderer</text>
+    <rect class="head" x="415" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="470" y="50">Main</text>
+    <rect class="head" x="635" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="690" y="50">Executor</text>
+    <rect class="head" x="845" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="900" y="50">工具</text>
+    <rect class="head" x="1025" y="20" width="110" height="48" rx="8"/>
+    <text class="head-text" x="1080" y="50">SQLite</text>
+  </g>
+
+  <line class="life" x1="80" y1="68" x2="80" y2="735"/>
+  <line class="life" x1="250" y1="68" x2="250" y2="735"/>
+  <line class="life" x1="470" y1="68" x2="470" y2="735"/>
+  <line class="life" x1="690" y1="68" x2="690" y2="735"/>
+  <line class="life" x1="900" y1="68" x2="900" y2="735"/>
+  <line class="life" x1="1080" y1="68" x2="1080" y2="735"/>
+
+  <path class="msg" d="M80 110 H240"/>
+  <text class="label" x="160" y="100" text-anchor="middle">输入任务</text>
+
+  <path class="msg" d="M250 145 H460"/>
+  <text class="label" x="355" y="135" text-anchor="middle">app:ask</text>
+
+  <path class="msg" d="M470 180 H680"/>
+  <text class="label" x="575" y="170" text-anchor="middle">ask(runId, prompt)</text>
+
+  <path class="msg" d="M690 230 h45 v-25"/>
+  <text class="label" x="750" y="225">Agent loop / 模型调用</text>
+
+  <path class="msg-event" d="M690 270 H480"/>
+  <text class="label-orange" x="585" y="260" text-anchor="middle">token / tool-call</text>
+
+  <path class="msg-event" d="M470 305 H260"/>
+  <text class="label-orange" x="365" y="295" text-anchor="middle">推送事件</text>
+
+  <rect class="frame" x="185" y="335" width="620" height="210" rx="8"/>
+  <text class="title" x="200" y="356">alt 工具需要审批</text>
+
+  <path class="msg" d="M690 380 H480"/>
+  <text class="label" x="585" y="370" text-anchor="middle">approval-requested</text>
+
+  <path class="msg" d="M470 415 H260"/>
+  <text class="label" x="365" y="405" text-anchor="middle">弹窗：工具 / 参数 / runId</text>
+
+  <path class="msg" d="M250 450 H460"/>
+  <text class="label" x="355" y="440" text-anchor="middle">approve(decision)</text>
+
+  <path class="msg" d="M470 485 H680"/>
+  <text class="label" x="575" y="475" text-anchor="middle">回执</text>
+
+  <rect class="note" x="690" y="505" width="210" height="26" rx="4"/>
+  <text class="note-text" x="700" y="522">超过 120s 无回执按拒绝处理</text>
+
+  <path class="msg" d="M690 585 H890"/>
+  <text class="label" x="790" y="575" text-anchor="middle">执行已授权工具</text>
+
+  <path class="msg" d="M900 620 H700"/>
+  <text class="label" x="800" y="610" text-anchor="middle">结果 / 错误</text>
+
+  <path class="msg" d="M690 655 H1070"/>
+  <text class="label" x="880" y="645" text-anchor="middle">写事件 / 运行状态</text>
+
+  <path class="msg-event" d="M690 690 H480"/>
+  <text class="label-orange" x="585" y="680" text-anchor="middle">tool-result / run-finished</text>
+</svg>

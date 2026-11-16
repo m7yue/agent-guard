@@ -1,0 +1,7 @@
+flowchart LR
+  R[renderer<br/>React UI] -->|zod IPC via preload| M[main<br/>窗口 / 托盘 / 审批]
+  M -->|executor protocol| E[executor<br/>Agent loop / tools]
+  E -->|agent events / approval request| M
+  M -->|push events| R
+  E -->|write| DB[(SQLite)]
+  M -->|read-only| DB

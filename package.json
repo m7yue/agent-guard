@@ -1,0 +1,61 @@
+{
+  "name": "agentguard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "可审计的本地 Agent 执行器：每一次危险操作都有授权、有记录、可回放",
+  "type": "commonjs",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "dev:secure": "npm run build && electron .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "rebuild:node": "npm rebuild better-sqlite3 --build-from-source",
+    "rebuild:electron": "electron-rebuild -f -w better-sqlite3",
+    "perf": "node scripts/perf.cjs",
+    "perf:render": "node scripts/perf-render.cjs",
+    "e2e": "npm run build && tsx e2e/run-e2e.ts",
+    "evals": "tsx evals/cli/index.ts",
+    "evals:check": "tsx evals/cli/index.ts --check",
+    "evals:real": "tsx evals/cli/index.ts --real",
+    "dist:mac": "npm run build && electron-builder --mac dir && node scripts/make-artifacts.cjs",
+    "ci": "node scripts/ci.cjs"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@electron/rebuild": "^4.2.1",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "electron": "^45.2.2",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0",
+    "playwright": "^1.65.0",
+    "sqlite-vec": "^0.1.9",
+    "tsx": "^4.22.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^4.1.12"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0",
+    "antd": "^6.7.0",
+    "better-sqlite3": "^13.0.3",
+    "dayjs": "^1.11.23",
+    "electron-updater": "^6.8.11",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "productName": "AgentGuard",
+  "author": "m7yue"
+}

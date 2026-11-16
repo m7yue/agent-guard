@@ -1,0 +1,27 @@
+sequenceDiagram
+  participant U as 用户
+  participant R as Renderer
+  participant M as Main
+  participant E as Executor
+  participant T as 工具
+  participant D as SQLite
+
+  U->>R: 输入任务
+  R->>M: app:ask
+  M->>E: ask(runId, conversationId, prompt)
+  E->>E: Agent loop / 模型调用
+  E-->>M: token / tool-call
+  M-->>R: 推送事件
+
+  alt 工具需要审批
+    E->>M: approval-requested
+    M->>R: 弹窗（工具 / 参数 / runId）
+    R->>M: approve(decision)
+    M->>E: 回执
+    Note over E: 超过 120s 无回执按拒绝处理
+  end
+
+  E->>T: 执行已授权工具
+  T-->>E: 结果 / 错误
+  E->>D: 写事件与运行状态
+  E-->>M: tool-result / run-finished

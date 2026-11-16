@@ -1,0 +1,31 @@
+# 依赖与产物
+node_modules/
+out/
+dist/
+release/
+*.tsbuildinfo
+
+# 本地私有
+.env
+.env.*
+!.env.example
+lab/
+.claude/
+CLAUDE.md
+scripts/claude/
+.npm-cache/
+.electron-cache/
+.eb-cache/
+.home/
+.tmp/
+.state/
+.workspace/
+evals/results/
+
+# 系统与日志
+.DS_Store
+*.log
+coverage/
+
+# 演示视频录制的中间产物（帧与时间线），成片 demo.mp4 保留
+docs/assets/demo-build/
